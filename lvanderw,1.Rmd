@@ -1,0 +1,72 @@
+---
+title: "Assignment 1"
+author: "Lukas van der Watt"
+date: "9/12/2021"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+Aircraftdata <- read.csv("AVP1.csv")#Importing a file from excel in .csv file format
+Aircraftdata#expressing the data to be seen
+```
+```{r}
+V <- Aircraftdata[,6]#Isolating a column variable of the data
+MV <- mean(V) #Calculating the mean of that variable
+cat("The mean Velocity is ", MV, "ft/s") #Printing a statement as a descriptive summary
+
+```
+```{r}
+a<-Aircraftdata[,2]# Isolating the Angle of attack variable
+summary(a)#Getting descriptive summary of that variable in the dataset
+```
+```{r}
+ma<-max(a)#Finding the max angle of attack
+cat("The stall angle will happen at max angle of attack which is at",ma,"degrees")
+#Printing a statement as a descriptive summary
+```
+```{r}
+summary(Aircraftdata)# Getting a descriptive summary of the entire data
+
+```
+```{r}
+Period <- Aircraftdata[,1]#Isolating the time varibale
+plot(Period,a,
+     main = "Angle of Attack vs.Time",
+     xlab ="Period in seconds",
+     ylab = "Angle of Attack in degrees")
+```
+```{r}
+plot(Period,V,
+     main = "Velocity vs. Time",
+     xlab = "Time in sec",
+     ylab = "Velocity in ft/s" )
+```
+```{r}
+plot(Period,V,
+     main = "Velocity vs. Time",
+     xlab = "Time in sec",
+     ylab = "Velocity in ft/s" )
+#Plotting the time varible vs. the velocity variable in the data, added a graph title with an x and y label
+```
+```{r}
+CA <- Aircraftdata[,5]
+plot(CA,a,main = "Climb angle vs. Angle of Attack",
+     col.main="red",
+     xlab = "Climb Angle",
+     ylab = "Angle of Attack",)
+#Plotting the time varible vs. the velocity variable in the data, added a graph title (coloured red) with an x and y label
+```
+
