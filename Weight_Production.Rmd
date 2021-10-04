@@ -1,0 +1,23 @@
+---
+title: "Weight Production"
+author: "Lukas van der Watt"
+date: "10/4/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(lpSolve)
+library(lpSolveAPI)
+x <- read.lp("WeightProduction.lp")
+x
+solve(x)
+get.variables(x)
+
+```
+
