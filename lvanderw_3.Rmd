@@ -1,0 +1,60 @@
+---
+title: "WeightDualHW3"
+author: "Lukas van der Watt"
+date: "10/8/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(lpSolveAPI)
+lprec<- read.lp("Weight_ProductionSolution.lp")
+solve(lprec)#Primal
+
+get.objective(lprec)#getting the optimal objective value Z for the lp problem
+
+get.variables(lprec)#Retrieving the variable values of the Primal lp problem
+
+get.constraints(lprec)#Retrieving the constraint values for the Primal lp problem
+
+get.sensitivity.rhs(lprec)#Retrieving the sensitivity and more specifically the shadow price of the constrains.
+
+get.sensitivity.obj(lprec)#Retrieving the reduced cost of the constrains.
+
+get.dual.solution(lprec)#Retrieve the values of the dual variables. (This can show the reduced cost)
+```
+In the above output we can see the range for the shadow price by looking at the dualsfrom(lower limits) and dualstill (upper limits) outputs. This shows that the range is from -1e+30 to 1e+30. These values will stay within the optimal solution. The range of each constraint can be seen by looking at the corresponding values in the dualsfrom and dualstill output above.
+
+We can also do the same for the reduced cost by looking at the objfrom (lower limits) and the objtill(upper limits) in a similar fasion as explained above. We see a reduced cost range of 
+
+
+```{r}
+library(lpSolveAPI)
+
+x <- read.lp("weightDual.lp")
+
+set.bounds(x,lower = c(-Inf,-Inf),columns=c(10,11))
+
+solve(x) # Dual; ("0" indicates that it was successfully solved)
+
+get.objective(x)#getting the optimal objective value Z for the lp problem
+
+
+get.variables(x)#Retrieving the variable values of the Primal lp problem
+
+get.constraints(x)#Retrieving the constraint values for the Primal lp problem
+
+get.sensitivity.rhs(x)#Retrieving the sensitivity and more specifically the shadow price of the constrains for the Dual
+
+get.sensitivity.obj(x)#Retrieving the reduced cost of the constrains for the Dual
+```
+In the above output we can see the range for the shadow price by looking at the dualsfrom(lower limits) and dualstill (upper limits) outputs. This shows that the range is from 360 to 460 for the 1st constraint. These values will stay within the optimal solution. The range of each constraint can be seen by looking at the corresponding values in the dualsfrom and dualstill output above.
+
+We can also do the same for the reduced cost by looking at the objfrom (lower limits) and the objtill(upper limits) in a similar fashion as explained above. We see a reduced cost range of 694.4444 to infinity for the 1st constraint.
+
+This dual solution agrees with the Primal solution observed above because i) The objective function value $696 000 is the same in both the Primal and the Dual and ii) the decision variables of the Primal is reflected in the values of the shadow prices of the dual. Similarly, the variables of the dual is reflected in the shadow price of the Primal lp.
