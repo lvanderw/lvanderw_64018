@@ -1,0 +1,39 @@
+---
+title: "Assignment 4"
+author: "Lukas van der Watt"
+date: "10/23/2021"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r} 
+#Importing libraries to be able to run the lp models
+library(lpSolve)
+library(lpSolveAPI)
+#Reading the .lp file which contains the formulation of the HeartStart problem
+x <- read.lp("HeartStart.lp")
+x
+solve(x) #Solving the lp formulation. Since an output of [0] is produced we know it was solved successfully
+get.objective(x) # Getting the value of Z (objective function)
+get.variables(x) # Output of the variables indicate how many AED's should be produced for the optimal solution.
+#get.constraints(x)
+```
+We can see that the optimal solution for the AED production & shipping is:
+0  units (of xa1) in Plant A and warehouse 1
+60 units (of xa2) in Plant A and warehouse 2
+40 units (of xa3) in Plant A and warehouse 3 
+0  units (of xa4) in Plant A and warehouse 4
+80 units (of xb1) in Plant B and warehouse 1
+0  units (of xb2) in Plant B and warehouse 2
+30 units (of xb3) in Plant B and warehouse 3
+10 units (of xb4) in Plant B and warehouse 4
+These combinations will minimize the cost of production and shipping.
+```{r}
+#Reading the .lp file which contains the formulation of the Oil Distribution problem
+y <- read.lp("OilDistribution.lp")
+solve(y) #Solving the lp formulation. Since an output of [0] is produced we know it was solved successfully
+get.objective(y) # Getting the value of Z (objective function)
+get.variables(y)
+get.constraints(y)
+```
