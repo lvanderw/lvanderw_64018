@@ -1,0 +1,107 @@
+---
+title: "Assignment 5"
+author: "Lukas van der Watt"
+date: "11/8/2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("Benchmarking")
+library(Benchmarking)
+```
+
+Now, we read our input data. We will read the data as input and output as vectors. Remember our problem had 5 DMUs with expenses as input and loans and deposits as outputs.
+
+```{r}
+x <- matrix(c(150,400,320,520,350,320,0.2,0.7,1.2,2.0,1.2,0.7),ncol = 2)
+#z <- matrix(c(0.2,0.7,1.2,2.0,1.2,0.7))
+y <- matrix(c(14000,14000,42000,28000,19000,14000,3500,21000,10500,42000,25000,15000),ncol = 2)
+
+colnames(x) <- c("Staff Hours per Day","Supplies Per Day")
+colnames(y) <- c("Reimbursement","Privately Paid")
+
+
+x
+y
+```
+
+We now run the DEA analysis. We use the option of CRS, Constant Return to Scale. More on this later.
+```{r}
+e <- dea(x,y,RTS = "crs")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+#dea.plot.isoquant(x,y,RTS="crs")     # plot the results
+```
+The results indicate that DMUs 1, 2, 3 and 4 are efficient. DMU(6) is only 87% efficient, and DMU(5) is 98% efficient. Further, the peer units for DMU(5) are 1,2 and 4, with relative weights 0.2, 0.08 and 0.54. Similarly for DMU(6), the peer units are 1,2  and 4, with weights 0.34,0.39 and 0.13 respectively.
+```{r}
+e <- dea(x,y,RTS = "fdh")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+#dea.plot.isoquant(x,y,RTS="fdh")     # plot the results
+```
+The results indicate that all DMUs  are efficient and all DMU's carry the same weight.
+```{r}
+e <- dea(x,y,RTS = "vrs")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+#dea.plot.isoquant(x,y,RTS="vrs")     # plot the results
+```
+The results indicate that DMUs 1, 2, 3, 4 and 5 are efficient. DMU(6) is 90% efficient. Further, the peer units for DMU(6) are 1,2 and 5, with relative weights 0.4 and 0.34 and 0.26. 
+```{r}
+e <- dea(x,y,RTS = "irs")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+dea.plot.isoquant(x,y,RTS="irs")   # plot the results
+```
+The results indicate that DMUs 1, 2, 3 and 4 are efficient. DMU(6) is only 89% efficient. Further, the peer units for DMU(6) are 1,2 and 5, with relative weights 0.4 , 0.34 and 0.26 respectively.
+```{r}
+e <- dea(x,y,RTS = "drs")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+#dea.plot.isoquant(x,y,RTS="drs")     # plot the results
+```
+The results indicate that DMUs 1, 2, 3 and 4 are efficient. DMU(5) is 98% efficient. Similarly DMU(6) is at an efficiency of 87%. Further, the peer units for DMU(5) are 1,2 and 4, with relative weights 0.2 , 0.08 and 0.54 respectively. The peer units for DMU(6) are 1,2 and 4, with relative weights 0.34 , 0.39 and 0.13 respectively. 
+```{r}
+e <- dea(x,y,RTS = "add")            # provide the input and output 
+e
+peers(e)                             # identify the peers
+lambda(e)                            # identify the relative weights given to the peers
+```
+The results indicate that all DMUs are efficient and all DMU's carry the same weight.
+
+FDH & FRH is the highest efficiency of all the assumptions and is therefore favorable above the other DEA Assumptions. The FRH is larger than the FDH assumption and smaller that the CRS Assumption. Furthermore the second best preference is the VRS Assumption as it has a good efficiency with majority DMU's at 1 and the 6th DMU at 90%. The IRS and VRS assumptions are very similar, but the VRS is better as its DMU(6) has a 1% superiority to the IRS DMU(6).
+These Assumptions are based on minimum extrapolation.
+
+#Problem 2
+```{r}
+gp_sl <- read.lp("Emax.lp")
+gp_sl
+```
+
+```{r}
+solve(gp_sl) #Solving the lp formulation
+get.objective(gp_sl) # getting the max objective function value This value is in millions of dollars
+get.variables(gp_sl)# getting the variable in the order they are present in the function
+```
+the lp problem was solved successfully. Objective function Z = 225 million dollars
+
+x1 = 0
+x2 = 0
+x3 = 15
+y1m (positive) = 25
+y1p (negative) = 0
+y2m (positive) = 0
+y2p (negative) = 0
+
+
